@@ -30,3 +30,20 @@ public func SimpleName<T>(of element: T) -> String {
     return SimpleName(ofType: type(of: element as Any))
     // Using as Any to get dynamic type for cases like protocol conforming types.
 }
+/**
+    Convenience method to grab the main thread and perform closure
+
+    - Parameter closure: the closure to execute
+ 
+    For more information on why do we need to use this see:
+    https://medium.com/@johnsundell/reducing-flakiness-in-swift-tests-5942e5677394
+ */
+func performUIUpdate(using closure: @escaping () -> Void) {
+    // If we are already on the main thread, execute the closure directly
+    if Thread.isMainThread {
+        closure()
+    }
+    else {
+        DispatchQueue.main.async(execute: closure)
+    }
+}
