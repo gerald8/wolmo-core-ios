@@ -34,7 +34,13 @@ class ViewController: UIViewController {
         setUpCardAnimation()
         setupSimpleAnimations()
         
-        imageView.isDrageable()
+        imageView.isDrageable(returnToPosition: true) { [weak self] in
+            if self?.imageView.backgroundColor == UIColor.blue {
+                self?.imageView.backgroundColor = UIColor.red
+            } else {
+                self?.imageView.backgroundColor = UIColor.blue
+            }
+            print("Release") }
         imageView.backgroundColor = UIColor.red
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 23.5

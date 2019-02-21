@@ -39,7 +39,7 @@ public extension UIView {
         layer.add(animation, forKey: "position")
     }
     
-    public func isDrageable(returnToPosition: Bool = true, withDuration duration: TimeInterval = 0.5) {
+    public func isDrageable(returnToPosition: Bool = true, withDuration duration: TimeInterval = 0.5, action: (() -> Void)?) {
         let origin: CGPoint = self.frame.origin
         
         self.addPanGestureRecognizer(action: { [weak self] recognaizer in
@@ -50,6 +50,7 @@ public extension UIView {
                 self?.center = CGPoint(x: (self?.center.x)! + translation.x, y: (self?.center.y)! + translation.y)
                 recognaizer.setTranslation(CGPoint.zero, in: self)
             case .ended:
+                action?()
                 UIView.animate(withDuration: duration, animations: {
                     if returnToPosition {
                         self?.frame.origin = origin
