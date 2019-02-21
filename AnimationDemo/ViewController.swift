@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         setUpCardAnimation()
         setupSimpleAnimations()
         
-        imageView.isDrageable(returnToPosition: true) { [weak self] in
+        imageView.isDraggable(returnToPosition: true) { [weak self] in
             if self?.imageView.backgroundColor == UIColor.blue {
                 self?.imageView.backgroundColor = UIColor.red
             } else {
