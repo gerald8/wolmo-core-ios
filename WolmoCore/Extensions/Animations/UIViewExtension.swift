@@ -28,6 +28,13 @@ public extension UIView {
         return ChainedAnimation(view: self, loop: loop)
     }
     
+    /**
+     Adds a shake animation that executes the closure when long pressed
+     
+     - Parameter duration: Time in seconds the animation will be execute. Default is 0.05
+     - Parameter repeatShake: Number of time that view change the position. Default is 3
+     */
+    
     public func shake(withDuration duration: TimeInterval = 0.05, repeatShake: Float = 3) {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = duration
@@ -39,23 +46,34 @@ public extension UIView {
         layer.add(animation, forKey: "position")
     }
     
-    public func isDraggable(returnToPosition: Bool = true, withDuration duration: TimeInterval = 0.5, action: (() -> Void)?) {
+    /**
+     Allow drag the view and can execute an action when hold and/or release the view
+     
+     - Parameter returnToPosition: The number of full taps required before the press for gesture to be recognized. Default is true
+     - Parameter duration: Time in seconds that the view take to return to the original position. Default is 0.5
+     - Parameter onDragStared: The closure that will execute when the view is hold
+     - Parameter onDragFinished: The closure that will execute when the view is release
+     */
+    
+    public func isDraggable(returnToPosition: Bool = true, withDuration duration: TimeInterval = 0.5, onDragStared: (() -> Void)?, onDragFinished: (() -> Void)?) {
         let origin: CGPoint = self.frame.origin
         
-        self.addPanGestureRecognizer(action: { [weak self] recognaizer in
-            let translation = recognaizer.translation(in: self)
-            
-            switch recognaizer.state {
-            case .began, .changed:
-                self?.center = CGPoint(x: (self?.center.x)! + translation.x, y: (self?.center.y)! + translation.y)
-                recognaizer.setTranslation(CGPoint.zero, in: self)
+        self.addPanGestureRecognizer(action: { [weak self] recognizer in
+            let translation = recognizer.translation(in: self)
+            guard let guardSelf = self else { return }
+            switch recognizer.state {
+            case .began:
+                onDragStared?()
+            case .changed:
+                guardSelf.center = CGPoint(x: guardSelf.center.x + translation.x, y: guardSelf.center.y + translation.y)
+                recognizer.setTranslation(CGPoint.zero, in: self)
             case .ended:
-                action?()
-                UIView.animate(withDuration: duration, animations: {
-                    if returnToPosition {
+                onDragFinished?()
+                if returnToPosition {
+                    UIView.animate(withDuration: duration, animations: {
                         self?.frame.origin = origin
-                    }
-                })
+                    })
+                }
             default:
                 break
             }
