@@ -55,7 +55,7 @@ public extension UIView {
      - Parameter onDragFinished: The closure that will execute when the view is released
      */
     
-    public func isDraggable(returnToPosition: Bool = true, withDuration duration: TimeInterval = 0.5, onDragStarted: (() -> Void)?, onDragFinished: (() -> Void)?) {
+    public func isDraggable(returnToPosition: Bool = true, withDuration duration: TimeInterval = 0.5, onDragStarted: ((UIView) -> Void)?, onDragFinished: ((UIView) -> Void)?) {
         var origin: CGPoint = frame.origin
         
         self.addPanGestureRecognizer { [weak self] recognizer in
@@ -64,12 +64,12 @@ public extension UIView {
             switch recognizer.state {
             case .began:
                 origin = guardSelf.frame.origin
-                onDragStarted?()
+                onDragStarted?(guardSelf)
             case .changed:
                 guardSelf.center = CGPoint(x: guardSelf.center.x + translation.x, y: guardSelf.center.y + translation.y)
                 recognizer.setTranslation(CGPoint.zero, in: self)
             case .ended:
-                onDragFinished?()
+                onDragFinished?(guardSelf)
                 if returnToPosition {
                     UIView.animate(withDuration: duration, animations: {
                         self?.frame.origin = origin
