@@ -113,8 +113,8 @@
                     </view>
                     <connections>
                         <outlet property="cardsContainerView" destination="UZ3-Dy-jEa" id="STz-x1-SkI"/>
+                        <outlet property="draggableView" destination="LeH-Dx-IwZ" id="4QH-Oo-U7J"/>
                         <outlet property="greenView" destination="ael-Y7-f1w" id="dWc-8h-ood"/>
-                        <outlet property="imageView" destination="LeH-Dx-IwZ" id="4QH-Oo-U7J"/>
                         <outlet property="redContainerView" destination="w9W-FY-xHw" id="rvQ-t6-66H"/>
                         <outlet property="segmentedControl" destination="9FQ-CI-3m0" id="uWA-HH-Fh4"/>
                         <outlet property="yellowView" destination="uEr-8K-USU" id="Cff-0M-aNW"/>
