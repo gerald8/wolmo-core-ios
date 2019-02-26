@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var yellowView: UIView!
     @IBOutlet weak var greenView: UIView!
     @IBOutlet weak var cardsContainerView: UIView!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var draggableView: UIImageView!
     
     var rotationAnimator: UIViewPropertyAnimator!
     var lastTranslation = CGPoint.zero
@@ -34,16 +34,16 @@ class ViewController: UIViewController {
         setUpCardAnimation()
         setupSimpleAnimations()
         
-        imageView.isDraggable(returnToPosition: true, onDragStared: {}, onDragFinished: { [weak self] in
-            if self?.imageView.backgroundColor == UIColor.blue {
-                self?.imageView.backgroundColor = UIColor.red
+        draggableView.isDraggable(returnToPosition: true, onDragStarted: {}, onDragFinished: { [weak self] in
+            if self?.draggableView.backgroundColor == UIColor.blue {
+                self?.draggableView.backgroundColor = UIColor.red
             } else {
-                self?.imageView.backgroundColor = UIColor.blue
+                self?.draggableView.backgroundColor = UIColor.blue
             }
             print("Release") })
-        imageView.backgroundColor = UIColor.red
-        imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = 23.5
+        draggableView.backgroundColor = UIColor.red
+        draggableView.layer.masksToBounds = true
+        draggableView.layer.cornerRadius = 23.5
     }
 
     override func viewDidAppear(_ animated: Bool) {
