@@ -34,13 +34,13 @@ class ViewController: UIViewController {
         setUpCardAnimation()
         setupSimpleAnimations()
         
-        draggableView.isDraggable(returnToPosition: true, onDragStarted: nil, onDragFinished: { view in
-            if view.backgroundColor == UIColor.blue {
-                view.backgroundColor = UIColor.red
-            } else {
+        draggableView.isDraggable(returnToPosition: true,
+                                  onDragStarted: { view in
                 view.backgroundColor = UIColor.blue
-            }
-            print("Release") })
+            },
+                                  onDragFinished: { view in
+                view.backgroundColor = UIColor.red
+            })
         draggableView.backgroundColor = UIColor.red
         draggableView.layer.masksToBounds = true
         draggableView.layer.cornerRadius = 23.5
